@@ -1,2 +1,2 @@
 # sentimentAnalyses
-Sentiment Analyses in python
+Twitter Sentiment Analyses in python
