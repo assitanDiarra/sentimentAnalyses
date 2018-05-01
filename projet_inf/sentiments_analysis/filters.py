@@ -5,7 +5,7 @@ import django_filters
 gender_choice=(
 ('Male','Male'),
 ('Female','Female'),
-('Unknow','Unknow'))
+('Unknown','Unknown'))
 sentiment_choice=(
 ('Positive','Positive'),
 ('Negative','Negative'),
@@ -29,6 +29,7 @@ class CarteFilter(django_filters.FilterSet):
 	tweet = django_filters.CharFilter(lookup_expr='icontains')
 	gender_predicted = django_filters.MultipleChoiceFilter(choices=gender_choice,
         widget=forms.CheckboxSelectMultiple)
+
 
     
 	class Meta:

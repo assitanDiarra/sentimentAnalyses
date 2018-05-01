@@ -28,13 +28,13 @@ def home(request):
 	
 def carte(request):
 	
-	tweets_filter = list(CarteFilter(request.GET, queryset=Tweets.objects.values('country_code','tweet','gender_predicted').annotate(Sum('sentiment_compound_polarity'))))
-	tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
-	tweets_list= json.dumps({"data": tweets_filter})
-	print(tweets_filter)
+	tweets_filter = filters.CarteFilter(request.GET, queryset=Tweets.objects.all())
+	#tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
+	tweets_list= list(tweets_filter.qs.values('country_code').annotate(Sum('sentiment_compound_polarity')))
+	tweets_list= json.dumps({"data": tweets_list})
 	print("blabla")
 	#return HttpResponse(tweets_list)
-	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter})
+	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list})
 	
 def liste_tweet(request):
 	
