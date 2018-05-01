@@ -34,14 +34,6 @@ class Tweets(models.Model):
 	
 	
 
-class TweetTable(tables.Table):
-    class Meta:
-        model = Tweets
-
-
-class TweetList(SingleTableView):
-    model = Tweets
-    table_class = TweetTable 
 	
 #class FilteredTweetListView(SingleTableMixin, FilterView):
 #    table_class = TweetTable
