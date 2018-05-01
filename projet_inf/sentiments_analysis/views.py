@@ -11,6 +11,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .filters import TweetFilter, CarteFilter
 from . import filters
 from django.db.models import Count
+import datetime
+from datetime import timedelta
 
 def accueil(request):
 
@@ -70,25 +72,26 @@ def getData(request, type_graphique, chrono, sentiment):
         1 -> show by sentiment_type
         2 -> show by gender
     """
-    print("blabla")
     if( type_graphique=='1' and chrono=='1'):        
         listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date').annotate(value=Count('dateTime')))
-        print( listTweets )
         
-        return JsonResponse({'data': listTweets}, safe=False)
-            
+        dico = {}
+        for d in listTweets:
+            jour = datetime.datetime.strptime(d['date'], "%Y-%m-%d")
+            dico[jour]=d['value']
+        
+        debut = min(dico.keys())
+        fin = max(dico.keys())
+        intervalle = fin - debut
         
         data = []
-        for m in range(3,5):
-            for d in range(1,31):
-                if( d<=12 and m==3):
-                    continue
-                if( d>=10 and m==4):
-                    continue
-                jour = date(2018, m, d)
-                cpt = Tweets.objects.filter(dateTime__date=jour).count()
-                jourTexte = ""+str(m)+"-"+str(d)
-                data.append({'date':jourTexte, 'value':cpt})
+        for i in range(intervalle.days+1):
+            jour = debut + timedelta(days=i)
+            if jour in dico:
+                data.append({'date': jour.strftime("%m-%d"), 'value':str(dico[jour])})
+            else:
+                data.append({'date': jour.strftime("%m-%d"), 'value':'0'})
+            
         return JsonResponse({'data': data}, safe=False)
     
     elif( type_graphique=='1' and chrono=='3'):
@@ -117,33 +120,38 @@ def getData(request, type_graphique, chrono, sentiment):
         return JsonResponse({'data': data}, safe=False)
     
     elif( type_graphique=='2' and chrono=='1' and sentiment=='1'):
-        liste = []
-        for m in range(3,5):
-            for d in range(1,31):
-                if( d<=12 and m==3):
-                    continue
-                if( d>=10 and m==4):
-                    continue
-                
-                jour = date(2018, m, d)
-            
-                sql_pos = Tweets.objects.filter(dateTime__date = jour,
-                                       sentiment_type__startswith='P')
-                cpt_pos = sql_pos.count()
-                
-                sql_neg = Tweets.objects.filter(dateTime__date = jour,
-                                       sentiment_type__startswith='NEG')
-                cpt_neg = sql_neg.count()
-                
-                sql_neutral = Tweets.objects.filter(dateTime__date = jour,
-                                       sentiment_type__startswith='NEU')
-                cpt_neutral = sql_neutral.count()
-                
-                jourTexte = ""+str(m)+"-"+str(d)
-                liste.append({'date':jourTexte, 'positive':cpt_pos, 'neutral':cpt_neutral, 'negative':cpt_neg })
-                
+        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date','sentiment_type').annotate(value=Count('dateTime','sentiment_type')))
+        
+        dico = {}
+        for d in listTweets:
+            jour = datetime.datetime.strptime(d['date'], "%Y-%m-%d")
+            if( not jour in dico):
+                dico[jour]=[0,0,0]
+            triplet = dico[jour]
+            if( d["sentiment_type"]=='Positive'):
+                triplet[0]=d['value']
+            if( d["sentiment_type"]=='Neutral'):
+                triplet[1]=d['value']
+            if( d["sentiment_type"]=='Negative'):
+                triplet[2]=d['value']
+            dico[jour]=triplet
+        
+        debut = min(dico.keys())
+        fin = max(dico.keys())
+        intervalle = fin - debut
+        
+        data = []
+        for i in range(intervalle.days+1):
+            jour = debut + timedelta(days=i)
+            if( not jour in dico ):
+                dico[jour]=[0,0,0]
+            triplet = dico[jour]
+            data.append({'date': jour.strftime("%m-%d"), 
+                         'positive':triplet[0], 
+                         'neutral':triplet[1], 
+                         'negative':triplet[2]})
         columns=['date','positive','neutral','negative']
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return JsonResponse({'liste': data, 'columns': columns}, safe=False)
     
     elif( type_graphique=='2' and chrono=='2' and sentiment=='1'):
         liste = []
@@ -194,33 +202,38 @@ def getData(request, type_graphique, chrono, sentiment):
         return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
         
     elif( type_graphique=='2' and chrono=='1' and sentiment=='2'):
-        liste = []
-        for m in range(3,5):
-            for d in range(1,31):
-                if( d<=12 and m==3):
-                    continue
-                if( d>=10 and m==4):
-                    continue
-                
-                jour = date(2018, m, d)
-            
-                sql_m = Tweets.objects.filter(dateTime__date = jour,
-                                       gender_predicted__startswith='M')
-                cpt_m = sql_m.count()
-                
-                sql_f = Tweets.objects.filter(dateTime__date = jour,
-                                       gender_predicted__startswith='F')
-                cpt_f = sql_f.count()
-                
-                sql_u = Tweets.objects.filter(dateTime__date = jour,
-                                       gender_predicted__startswith='U')
-                cpt_u = sql_u.count()
-                
-                jourTexte = ""+str(m)+"-"+str(d)
-                liste.append({'date':jourTexte, 'men':cpt_m, 'unknown':cpt_u, 'women':cpt_f })
-                
+        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date','gender_predicted').annotate(value=Count('dateTime','gender_predicted')))
+        
+        dico = {}
+        for d in listTweets:
+            jour = datetime.datetime.strptime(d['date'], "%Y-%m-%d")
+            if( not jour in dico):
+                dico[jour]=[0,0,0]
+            triplet = dico[jour]
+            if( d["gender_predicted"]=='Male'):
+                triplet[0]=d['value']
+            if( d["gender_predicted"]=='Female'):
+                triplet[1]=d['value']
+            if( d["gender_predicted"]=='Unknown'):
+                triplet[2]=d['value']
+            dico[jour]=triplet
+        
+        debut = min(dico.keys())
+        fin = max(dico.keys())
+        intervalle = fin - debut
+        
+        data = []
+        for i in range(intervalle.days+1):
+            jour = debut + timedelta(days=i)
+            if( not jour in dico ):
+                dico[jour]=[0,0,0]
+            triplet = dico[jour]
+            data.append({'date': jour.strftime("%m-%d"), 
+                         'men':triplet[0], 
+                         'unknown':triplet[1], 
+                         'women':triplet[2]})
         columns=['date','men','unknown','women']
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return JsonResponse({'liste': data, 'columns': columns}, safe=False)
     
     elif( type_graphique=='2' and chrono=='2' and sentiment=='2'):
         liste = []
