@@ -345,7 +345,7 @@
                             
                             // Parse the date / time
                             if( chrono==1){
-								var	parseDate = d3v3.time.format("%Y-%m-%d").parse;
+								var	parseDate = d3v3.time.format("%m-%d").parse;
 								}
 							if( chrono==3){
 								var	parseDate = d3v3.time.format("%H").parse;
@@ -452,7 +452,9 @@
                 function graphique2( chrono, sentiment){
 							
 						d3.json("page/getData/2/"+chrono+"/"+sentiment, function(error, response) {
-						
+							console.log("response : ");
+							console.log(response);
+							
 							var data = response.liste;
 							data['columns'] = response.columns;
 							
