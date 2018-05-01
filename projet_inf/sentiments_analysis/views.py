@@ -36,7 +36,7 @@ def carte(request):
 	tweets_list= json.dumps({"data": tweets_list})
 	print("blabla")
 	#return HttpResponse(tweets_list)
-	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list})
+	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter })
 	
 def liste_tweet(request):
 	

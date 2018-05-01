@@ -54,6 +54,10 @@
             {% endfor %}
           </div>
         </div>
+		        <div class="form-group col-sm-4 col-md-3">
+          {{ tweets_filter.form.dateTime.label_tag }}
+          {% render_field tweets_filter.form.dateTime class="form-control" %}
+        </div>
       </div>
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-search"></span> Search
