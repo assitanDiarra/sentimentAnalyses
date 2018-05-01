@@ -10,6 +10,7 @@ from sentiments_analysis.models import  Tweets,TweetTable,TweetTable
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .filters import TweetFilter
 from . import filters
+from django.db.models import Count
 
 def home(request):
 
@@ -62,7 +63,13 @@ def getData(request, type_graphique, chrono, sentiment):
         2 -> show by gender
     """
     print("blabla")
-    if( type_graphique=='1' and chrono=='1'):
+    if( type_graphique=='1' and chrono=='1'):        
+        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date').annotate(value=Count('dateTime')))
+        print( listTweets )
+        
+        return JsonResponse({'data': listTweets}, safe=False)
+            
+        
         data = []
         for m in range(3,5):
             for d in range(1,31):
