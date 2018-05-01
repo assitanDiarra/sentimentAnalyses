@@ -6,14 +6,21 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render
-from sentiments_analysis.models import  Tweets,TweetTable,TweetTable
+from sentiments_analysis.models import  Tweets
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .filters import TweetFilter
+from .filters import TweetFilter, CarteFilter
 from . import filters
 from django.db.models import Count
 import datetime
 from datetime import timedelta
 
+def accueil(request):
+
+	tweets= Tweets.objects.all()
+	
+	return render(request, 'sentiments_analysis/accueil.html',{'table': tweets})
+	
+	
 def home(request):
 
     """ Exemple de page non valide au niveau HTML pour que l'exemple soit concis """
@@ -23,10 +30,11 @@ def home(request):
 	
 def carte(request):
 	
-	tweets_filter = TweetFilter(request.GET, queryset=Tweets.objects.order_by('-dateTime'))
-	tweets_list= list(Tweets.objects.values('country_code', 'gender_predicted').annotate(Sum('sentiment_compound_polarity')))
-	tweets_list= json.dumps({"data": tweets_list})
-	#print(tweets_list)
+	tweets_filter = list(CarteFilter(request.GET, queryset=Tweets.objects.values('country_code','tweet','gender_predicted').annotate(Sum('sentiment_compound_polarity'))))
+	tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
+	tweets_list= json.dumps({"data": tweets_filter})
+	print(tweets_filter)
+	print("blabla")
 	#return HttpResponse(tweets_list)
 	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter})
 	
@@ -277,10 +285,5 @@ def getData(request, type_graphique, chrono, sentiment):
     return JsonResponse({}, safe=False)
 
 	
-def accueil(request):
-	
-	tweets= Tweets.objects.all()
-	
-	return render(request, 'sentiments_analysis/accueil.html',{'table': tweets})
 	
 

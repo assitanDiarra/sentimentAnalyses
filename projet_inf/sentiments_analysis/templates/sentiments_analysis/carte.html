@@ -45,23 +45,9 @@
           {% render_field tweets_filter.form.tweet class="form-control" %}
         </div>
         <div class="form-group col-sm-4 col-md-3">
-          {{ tweets_filter.form.country.label_tag }}
-          {% render_field tweets_filter.form.country class="form-control" %}
-        </div>
-        <div class="form-group col-sm-4 col-md-3">
           {{ tweets_filter.form.gender_predicted.label_tag }}
           <div>
             {% for choice in tweets_filter.form.gender_predicted %}
-              <label class="checkbox-inline">
-                {{ choice.tag }} {{ choice.choice_label }}
-              </label>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="form-group col-sm-8 col-md-6">
-          {{ tweets_filter.form.sentiment_type.label_tag }}
-          <div>
-            {% for choice in tweets_filter.form.sentiment_type %}
               <label class="checkbox-inline">
                 {{ choice.tag }} {{ choice.choice_label }}
               </label>
