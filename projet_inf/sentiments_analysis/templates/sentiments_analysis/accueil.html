@@ -1,0 +1,627 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Les tweetos sont-ils heureux ?</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="{% static 'vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/freelancer.min.css' %}" rel="stylesheet">
+
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">#Tweets</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Visualisations</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">ABOUT</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">CONTACT</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header  Twitter.jpg img-fluid bg-primary-->
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container">
+        <!--img class="img-fluid mb-5 d-block mx-auto" src="{% static 'img/Twitter.jpg' %}" alt=""/-->
+        <h1 class="text-uppercase mb-0">How are Tweetos ?</h1>
+        <hr class="star-light">
+        <h2 class="font-weight-light mb-0">Sentiments analyses</h2>
+      </div>
+    </header>
+
+
+    <!-- Portfolio Grid Section -->
+    <section class="portfolio" id="portfolio">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Visualisations</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-1">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src="{% static 'img/portfolio/cabin.png' %}" alt="">
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-2">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src="{% static 'img/portfolio/cake.png' %}" alt="">
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-3">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src="{% static 'img/portfolio/circus.png' %}" alt="">
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="bg-primary text-white mb-0" id="about">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-white">ABOUT</h2>
+        <hr class="star-light mb-5">
+        <div class="row">
+          <div class="col-lg-4 ml-auto">
+            <p class="lead">Nous avons travaillé très très dur pour obtenir un site aussi impeccable.</p>
+          </div>
+          <div class="col-lg-4 mr-auto">
+            <p class="lead">Donc on veut bien une bonne note, SVP!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">CONTACT US</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+            <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+            <form name="sentMessage" id="contactForm" novalidate="novalidate">
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Name</label>
+                  <input class="form-control" id="name" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>EMail Adress</label>
+                  <input class="form-control" id="email" type="email" placeholder="EMail Adress" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Message</label>
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>  
+              </div>
+              <br>
+              <div id="success"></div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Location</h4>
+            <p class="lead mb-0">Ensae
+              <br>Palaiseau, quelque part dans la campagne</p>
+          </div>
+          <div class="col-md-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Reseaux sociaux</h4>
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-facebook"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-google-plus"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-linkedin"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-dribbble"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h4 class="text-uppercase mb-4">Qui sommes-nous ?</h4>
+            <p class="lead mb-0">Assitan et Simon, deux étudiants brillants en Data-Science dans la meilleure école de France.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="copyright py-4 text-center text-white">
+      <div class="container">
+        <small>Copyright &copy; ne pas copier. On était les premiers :P 2018</small>
+      </div>
+    </div>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-to-top d-lg-none position-fixed ">
+      <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+        <i class="fa fa-chevron-up"></i>
+      </a>
+    </div>
+
+    <!-- Portfolio Modals -->
+
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-1">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">Project Name</h2>
+              <hr class="star-dark mb-5">
+			</div> 
+		  </div>
+		</div>
+			   <!--iframe align = "center" src="test" name="test" allowTransparency="true" scrolling="no" frameborder="0" width="1000px" height= "1200px" ></iframe-->
+               <iframe class = ""  src="liste_tweet" scrolling="no" style='overflow: hidden; position:relative; height: 70em; width: 100%' name= "blabla" frameborder="0" width="100%" height= "100%"  ></iframe>
+			  <!--a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                <i class="fa fa-close"></i>
+                Close Project</a-->
+             
+      
+        
+      </div>
+    </div>
+
+<!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-2">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">Graphiques</h2>
+              <hr class="star-dark mb-5">
+              <img class="img-fluid mb-5" src="img/portfolio/cake.png" alt="">
+              
+			  <form name="form_graphique" method="get">
+					<div class="well">
+					
+					<SELECT name="type_valeur" size="1">
+						<OPTION value="0">nombre de tweets
+						<OPTION value="1">sentiment
+						<OPTION value="2">genre
+					</SELECT>
+					<SELECT name="chrono" size="1">
+						<OPTION value="3">par heure
+						<OPTION value="2">par jour de la semaine
+						<OPTION value="1">par date
+					</SELECT>
+					  <button type="submit" class="btn btn-primary rounded-pill"
+					  onclick="graphique();return false;">
+						Go
+					  </button>
+					</div>
+				</form>
+                <style>
+                    .bar {
+                      fill: steelblue;
+                    }
+                    .bar:hover {
+                      fill: brown;
+                    }
+                	.axis {
+                    	  font: 10px sans-serif;
+                    	}
+                    
+                    	.axis path,
+                    	.axis line {
+                    	  fill: none;
+                    	  stroke: #000;
+                    	  shape-rendering: crispEdges;
+                    	}
+                
+                	</style>
+              <div class="div_graphiques">
+              
+            <script src="{% static 'd3js_v3.js' %}"></script>
+            <script src="//d3js.org/d3.v4.min.js"></script>
+				<script>
+                graphique1(3);
+				
+				function graphique(){
+					chrono = document.form_graphique.chrono;
+					chrono_value = chrono.options[chrono.selectedIndex].value;
+					console.log( chrono_value );
+					
+					type_valeur = document.form_graphique.type_valeur;
+					type_valeur_value = type_valeur.options[type_valeur.selectedIndex].value;
+					console.log( type_valeur_value );
+					
+					if( type_valeur_value != 0){
+						graphique2( chrono_value, type_valeur_value);
+					}
+					else {
+						graphique1( chrono_value);
+					}
+				}
+                
+                function graphique1(chrono){
+                        console.log("graphique1");
+                        
+                        d3v3.json("page/getData/1/"+chrono+"/0", function(error, response) {
+                        
+                        console.log("response:");
+                        console.log(response);
+                        
+                        var data = response.data;
+                        
+                        console.log(data);
+                        
+                        var margin = {top: 20, right: 20, bottom: 70, left: 40},
+                                width = 700 - margin.left - margin.right,
+                                height = 400 - margin.top - margin.bottom;
+                            
+                            // Parse the date / time
+                            if( chrono==1){
+								var	parseDate = d3v3.time.format("%m-%d").parse;
+								}
+							if( chrono==3){
+								var	parseDate = d3v3.time.format("%H").parse;
+							}
+                            
+                            var x = d3v3.scale.ordinal().rangeRoundBands([0, width], .05);
+                            
+                            var y = d3v3.scale.linear().range([height, 0]);
+                            
+                            var xAxis = d3v3.svg.axis()
+                                .scale(x)
+                                .orient("bottom");
+								
+							if( chrono==1){
+                                xAxis.tickFormat(d3v3.time.format("%m-%d"));
+							}
+							else if( chrono==3){
+                                xAxis.tickFormat(d3v3.time.format("%H"));
+							}
+							else if( chrono==2){
+								xAxis.ticks(7);
+							}
+                            
+                            var yAxis = d3v3.svg.axis()
+                                .scale(y)
+                                .orient("left")
+                                .ticks(10);
+                            
+                            var divGraphique = d3v3.select("div.div_graphiques");
+                            
+                            
+                            var divGraphiqueNode = divGraphique[0][0];
+                            
+
+                            while (divGraphiqueNode.hasChildNodes()) {
+                                divGraphiqueNode.removeChild(divGraphiqueNode.lastChild);
+                            }
+
+                            var svg = divGraphique.append("svg")
+                                .attr("width", width + margin.left + margin.right)
+                                .attr("height", height + margin.top + margin.bottom)
+                              .append("g")
+                                .attr("transform", 
+                                      "translate(" + margin.left + "," + margin.top + ")");
+                            
+                           data.forEach(function(d) {
+									if( chrono==2){
+										d.date = d.date;
+									}
+									else {
+										d.date = parseDate(d.date);
+										}
+                                    d.value = +d.value;
+                                });
+                            	
+                              x.domain(data.map(function(d) { return d.date; }));
+                              y.domain([0, d3v3.max(data, function(d) { return d.value; })]);
+                            
+                              var newg = svg.append("g")
+                                  .attr("class", "x axis")
+                                  .attr("transform", "translate(0," + height + ")")
+                                  .call(xAxis)
+                                .selectAll("text")
+                                  .style("text-anchor", "end")
+                                  .attr("dx", "-.8em")
+                                  .attr("dy", "-.55em");
+							
+								
+							if( chrono==1){
+                                newg.attr("transform", "rotate(-90)" );
+							}
+							else if( chrono==3){
+                                newg.
+                                  attr("transform", "translate(15,12)" );
+                                  //.attr("transform", "rotate(-90)" );
+							}
+							else if( chrono==2){
+								newg.attr("transform", "translate(25,12)" );
+									  //.attr("transform", "rotate(-90)" );
+							}
+							
+                             svg.append("g")
+                                  .attr("class", "y axis")
+                                  .call(yAxis)
+                                .append("text")
+                                  .attr("transform", "rotate(-90)")
+                                  .attr("y", 6)
+                                  .attr("dy", ".71em")
+                                  .style("text-anchor", "end")
+                                  .text("Number of tweets");
+                            
+                              svg.selectAll(".bar")
+                                  .data(data)
+                                .enter().append("rect")
+                                  .attr("class", "bar")
+                                  //.style("fill", "steelblue")
+                                  .attr("x", function(d) { return x(d.date); })
+                                  .attr("width", x.rangeBand())
+                                  .attr("y", function(d) { return y(d.value); })
+                                  .attr("height", function(d) { return height - y(d.value); });
+                    });
+                    
+                }
+                function graphique2( chrono, sentiment){
+							
+						d3.json("page/getData/2/"+chrono+"/"+sentiment, function(error, response) {
+						
+							var data = response.liste;
+							data['columns'] = response.columns;
+							
+                            var divGraphique = d3.select("div.div_graphiques");
+														
+							var divGraphiqueNode = divGraphique['_groups'][0][0];
+
+								while (divGraphiqueNode.hasChildNodes()) {
+									divGraphiqueNode.removeChild(divGraphiqueNode.lastChild);
+								}
+							
+							var svg = divGraphique.append("svg")
+										.attr("width",700)
+										.attr("height",400);
+								margin = {top: 20, right: 60, bottom: 30, left: 40},
+								width = +svg.attr("width") - margin.left - margin.right,
+								height = +svg.attr("height") - margin.top - margin.bottom,
+								g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+							var x = d3.scaleBand()
+								.rangeRound([0, width])
+								.paddingInner(0.1)
+								.align(0.1);
+
+							var y = d3.scaleLinear()
+								.rangeRound([height, 0]);
+
+							if ( sentiment==1 ){
+								var z = d3.scaleOrdinal()
+									.range(["#98c598", "#c5c577", "#c59877"]);
+									//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+							}
+							else {
+								var z = d3.scaleOrdinal()
+									.range(["#7798c5", "#ababab", "#c577ab"]);
+									//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+							}
+
+							var stack = d3.stack()
+								.offset(d3.stackOffsetExpand);
+
+							/*columns = ['State','Under 5 Years','5 to 13 Years','14 to 17 Years','18 to 24 Years','25 to 44 Years','45 to 64 Years','65 Years and Over'];
+							
+							l_data = [
+								
+								{ 'State':'AL',	'Under 5 Years':310504,	'5 to 13 Years':552339,		'14 to 17 Years':259034,	'18 to 24 Years':450818,	'25 to 44 Years':1231572,		'45 to 64 Years':1215966,		'65 Years and Over':641667 },
+								{ 'State':'AK',	'Under 5 Years':52083,	'5 to 13 Years':85640,		'14 to 17 Years':42153,		'18 to 24 Years':74257,		'25 to 44 Years':198724,		'45 to 64 Years':183159,		'65 Years and Over':50277 },
+								{ 'State':'AZ',	'Under 5 Years':515910,	'5 to 13 Years':828669,		'14 to 17 Years':362642,	'18 to 24 Years':601943,	'25 to 44 Years':1804762,		'45 to 64 Years':1523681,		'65 Years and Over':862573 },
+								{ 'State':'AR',	'Under 5 Years':202070,	'5 to 13 Years':343207,		'14 to 17 Years':157204,	'18 to 24 Years':264160,	'25 to 44 Years':754420,		'45 to 64 Years':727124,		'65 Years and Over':407205 }
+							];
+							
+							//d3.csv("data.csv", type, function(error, csv_data) {
+								/*console.log(data);
+								console.log(data.columns);
+								console.log(data[49]);
+								console.log(data[50]);
+								console.log(data[51]);
+								console.log(data['columns']);
+								
+								l_data['columns'] = columns;
+								
+								data = l_data ;*/
+
+								  data.sort(function(a, b) { return b[data.columns[1]] / b.total - a[data.columns[1]] / a.total; });
+
+								  x.domain(data.map(function(d) { return d.date; }));
+								  z.domain(data.columns.slice(1));
+								  
+								  console.log('data.columns= '+data.columns);
+								  console.log(data.columns);
+
+								  var serie = g.selectAll(".serie")
+									.data(stack.keys(data.columns.slice(1))(data))
+									.enter().append("g")
+									  .attr("class", "serie")
+									  .attr("fill", function(d) { return z(d.key); });
+
+								  serie.selectAll("rect")
+									.data(function(d) { return d; })
+									.enter().append("rect")
+									  .attr("x", function(d) { return x(d.data.date); })
+									  .attr("y", function(d) { return y(d[1]); })
+									  .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+									  .attr("width", x.bandwidth());
+
+								  g.append("g")
+									  .attr("class", "axis axis--x")
+									  .attr("transform", "translate(0," + height + ")")
+									  .call(d3.axisBottom(x));
+
+								  g.append("g")
+									  .attr("class", "axis axis--y")
+									  .call(d3.axisLeft(y).ticks(10, "%"));
+
+								  var legend = serie.append("g")
+									  .attr("class", "legend")
+									  .attr("transform", function(d) { 
+										var d = d[d.length - 1];
+										console.log(x(d.data.date));
+										return "translate(" + (x(d.data.date) + x.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")"; });
+
+								  legend.append("line")
+									  .attr("x1", -6)
+									  .attr("x2", 6)
+									  .attr("stroke", "#000");
+
+								  legend.append("text")
+									  .attr("x", 9)
+									  .attr("dy", "0.35em")
+									  .attr("fill", "#000")
+									  .style("font", "10px sans-serif")
+									  .text(function(d) { return d.key; });
+
+							function type(d, i, columns) {
+							  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
+							  d.total = t;
+							  return d;
+							}
+							
+							});
+                    
+					}
+				</script>
+			  </div>
+			  <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                <i class="fa fa-close"></i>
+                Close Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-3">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">Project Name</h2>
+              <hr class="star-dark mb-5">
+            </div>
+          </div>
+        </div>
+		<iframe class = ""  align = "center" src="carte" scrolling="no" style='overflow: hidden; position:relative; height: 50em; width: 100%' name= "blabla" frameborder="0" width="100%" height= "100%"  ></iframe>
+      </div>
+    </div>
+
+
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+    <script src="{% static 'js/contact_me.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'js/freelancer.min.js' %}"></script>
+
+  </body>
+
+</html>
