@@ -30,12 +30,13 @@ def home(request):
 	
 def carte(request):
 	
-	tweets_filter = filters.CarteFilter(request.GET, queryset=Tweets.objects.all())
+	tweets_filter = filters.CarteFilter(request.GET, queryset=Tweets.objects.order_by('-dateTime'))
 	#tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= list(tweets_filter.qs.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= json.dumps({"data": tweets_list})
-	print("blabla")
-	#return HttpResponse(tweets_list)
+	#print(list(tweets_filter.qs.values('dateTime')))
+	#print(list(Tweets.objects.values("dateTime")))
+	#return HttpResponse(list(tweets_filter.qs))
 	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter })
 	
 def liste_tweet(request):
