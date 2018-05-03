@@ -38,31 +38,42 @@
 {% block content %}
   <form name="form_graphique" method="get">
     <div class="well">
-      <h4 style="margin-top: 0"></h4>
-      <div class="row">
-        <div class="form-group col-sm-4 col-md-3">
-          {{ tweets_filter.form.tweet.label_tag }}
-          {% render_field tweets_filter.form.tweet class="form-control" %}
+        <h4 style="margin-top: 0"></h4>
+        <div class="row">
+			<div class="form-group col-sm-3 col-md-3">
+			  {{ tweets_filter.form.tweet.label_tag }}
+			  {% render_field tweets_filter.form.tweet class="form-control" %}
+			</div>
+			<div class="form-group col-sm-3 col-md-3">
+			  {{ tweets_filter.form.country.label_tag }}
+			  {% render_field tweets_filter.form.country class="form-control" %}
+			</div>
+			<div class="form-group col-sm-3 col-md-2">
+				<div>
+					<label for="id_tweet">Y-axis:</label>
+					<br>
+					<SELECT name="type_valeur" size="1">
+						<OPTION value="0">number of tweets
+						<OPTION value="1">sentiment
+						<OPTION value="2">gender
+					</SELECT>
+				</div>
+				<div>
+					<label for="id_tweet">X-axis:</label>
+					<br>
+					<SELECT name="chrono" size="1">
+						<OPTION value="1">date
+						<OPTION value="2">week day
+						<OPTION value="3">hour
+					</SELECT>
+				</div>
+			</div>
+			<div class="form-group col-sm-1 col-md-3">
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-search"></span> Search
+				</button>
+			</div>
         </div>
-        <div class="form-group col-sm-4 col-md-3">
-          {{ tweets_filter.form.country.label_tag }}
-          {% render_field tweets_filter.form.country class="form-control" %}
-        </div>
-        <div class="form-group col-sm-4 col-md-3">
-			<SELECT name="type_valeur" size="1">
-				<OPTION value="0">nombre de tweets
-				<OPTION value="1" selected="selected" >sentiment
-				<OPTION value="2">genre
-			</SELECT>
-			<SELECT name="chrono" size="1">
-				<OPTION value="1">par date
-				<OPTION value="2">par jour de la semaine
-				<OPTION value="3">par heure
-			</SELECT>
-        </div>
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-search"></span> Search
-      </button>
     </div>
   </form>
   {% endblock %}
