@@ -43,6 +43,12 @@ class CarteFilter(django_filters.FilterSet):
 	class Meta:
 		model = Tweets
 		fields = ['tweet', 'country', 'gender_predicted', 'dateTime', 'sentiment_type']
-		
-#def __init__(self,*args,**kwargs):
-#	self.form.fields['dateTime__gt'].input_formats = [ '%d-%b-%Y' ]
+
+        
+class GraphiqueFilter(django_filters.FilterSet):
+	tweet = django_filters.CharFilter(lookup_expr='icontains')
+	country = django_filters.CharFilter(lookup_expr='icontains')
+
+	class Meta:
+		model = Tweets
+		fields = ['tweet', 'country', 'gender_predicted', 'dateTime', 'sentiment_type']
