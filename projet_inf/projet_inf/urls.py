@@ -25,6 +25,7 @@ urlpatterns = [
 	path('', views.accueil, name='accueil'),
 	path('liste_tweet', views.liste_tweet, name='liste_tweet'),
 	path('carte', views.carte, name='carte'),
+	path('graphique', views.graphique, name='graphique'),
 	path('page/getData/<type_graphique>/<chrono>/<sentiment>', views.getData)
 ]
 #urlpatterns = [

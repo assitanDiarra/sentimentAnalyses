@@ -34,9 +34,37 @@ def carte(request):
 	#tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= list(tweets_filter.qs.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= json.dumps({"data": tweets_list})
-	print("blabla")
 	#return HttpResponse(tweets_list)
-	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list})
+	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter })
+	
+def graphique(request):
+    tweets_filter = filters.GraphiqueFilter(request.GET, queryset=Tweets.objects.all())
+    attributs = {'tweets_filter': tweets_filter }
+    
+    tf = filters.GraphiqueFilter(request.GET, queryset=Tweets.objects.all())
+    
+    chrono = request.GET.get('chrono','1')
+    sentiment = request.GET.get('type_valeur','0')
+    if( sentiment=="0"):
+        type_graphique = "1"
+    else:
+        type_graphique = "2"
+    data = getData(type_graphique, chrono, sentiment, tf)
+    
+    #tweets_list= [{"date":"05-25", "value":35},{"date":"05-26", "value":43}]
+    data = json.dumps({"data": data})
+    attributs["data"]=data
+    
+    if( type_graphique=='2' and sentiment=='1'):
+        attributs["columns"]=['date','positive','neutral','negative']
+    elif( type_graphique=='2' and sentiment=='2'):
+        attributs["columns"]=['date','men','unknown','women']
+    else:
+        attributs["columns"]=0
+        
+    attributs["chrono"]=chrono
+    attributs["type_value"]=sentiment
+    return render(request, 'sentiments_analysis/graphique.html',attributs)
 	
 def liste_tweet(request):
 	
@@ -54,7 +82,8 @@ def liste_tweet(request):
 	return render(request, 'sentiments_analysis/liste_tweet.html',{'response': response,'tweets_filter': tweets_filter })
 
 
-def getData(request, type_graphique, chrono, sentiment):
+
+def getData(type_graphique, chrono, sentiment, tf):
     """
     type_graphique =
         1 -> histogram vanilla
@@ -73,7 +102,7 @@ def getData(request, type_graphique, chrono, sentiment):
         2 -> show by gender
     """
     if( type_graphique=='1' and chrono=='1'):        
-        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date').annotate(value=Count('dateTime')))
+        listTweets = list(tf.qs.extra(select={'date': 'date( dateTime )'}).values('date').annotate(value=Count('dateTime')))
         
         dico = {}
         for d in listTweets:
@@ -92,35 +121,35 @@ def getData(request, type_graphique, chrono, sentiment):
             else:
                 data.append({'date': jour.strftime("%m-%d"), 'value':'0'})
             
-        return JsonResponse({'data': data}, safe=False)
+        return data
     
     elif( type_graphique=='1' and chrono=='3'):
         data = []
         for h in range(24):
             
-                sql = Tweets.objects.filter(dateTime__hour = h)
+                sql = tf.qs.filter(dateTime__hour = h)
                 cpt = sql.count()
                 
                 heureTexte = ""+str(h)
                 data.append({'date':heureTexte, 'value':cpt})
                 
-        return JsonResponse({'data': data}, safe=False)
+        return data
     
     elif(  type_graphique=='1' and chrono=='2'):
         data = []
         for d in range(1,8):
             
-                sql = Tweets.objects.filter(dateTime__week_day = d)
+                sql = tf.qs.filter(dateTime__week_day = d)
                 cpt = sql.count()
                 
                 dico = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
                 jourTexte = dico[d-1]
                 data.append({'date':jourTexte, 'value':cpt})
                 
-        return JsonResponse({'data': data}, safe=False)
+        return data
     
     elif( type_graphique=='2' and chrono=='1' and sentiment=='1'):
-        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date','sentiment_type').annotate(value=Count('dateTime','sentiment_type')))
+        listTweets = list(tf.qs.extra(select={'date': 'date( dateTime )'}).values('date','sentiment_type').annotate(value=Count('dateTime','sentiment_type')))
         
         dico = {}
         for d in listTweets:
@@ -151,21 +180,21 @@ def getData(request, type_graphique, chrono, sentiment):
                          'neutral':triplet[1], 
                          'negative':triplet[2]})
         columns=['date','positive','neutral','negative']
-        return JsonResponse({'liste': data, 'columns': columns}, safe=False)
+        return data
     
     elif( type_graphique=='2' and chrono=='2' and sentiment=='1'):
         liste = []
         for d in range(1,8):
             
-                sql_pos = Tweets.objects.filter(dateTime__week_day = d,
+                sql_pos = tf.qs.filter(dateTime__week_day = d,
                                        sentiment_type__startswith='P')
                 cpt_pos = sql_pos.count()
                 
-                sql_neg = Tweets.objects.filter(dateTime__week_day = d,
+                sql_neg = tf.qs.filter(dateTime__week_day = d,
                                        sentiment_type__startswith='NEG')
                 cpt_neg = sql_neg.count()
                 
-                sql_neutral = Tweets.objects.filter(dateTime__week_day = d,
+                sql_neutral = tf.qs.filter(dateTime__week_day = d,
                                        sentiment_type__startswith='NEU')
                 cpt_neutral = sql_neutral.count()
                 
@@ -175,21 +204,21 @@ def getData(request, type_graphique, chrono, sentiment):
                 
         columns=['date','positive','neutral','negative']
         
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return liste
         
     elif( type_graphique=='2' and chrono=='3' and sentiment=='1'):
         liste = []
         for h in range(24):
             
-                sql_pos = Tweets.objects.filter(dateTime__hour = h,
+                sql_pos = tf.qs.filter(dateTime__hour = h,
                                        sentiment_type__startswith='P')
                 cpt_pos = sql_pos.count()
                 
-                sql_neg = Tweets.objects.filter(dateTime__hour = h,
+                sql_neg = tf.qs.filter(dateTime__hour = h,
                                        sentiment_type__startswith='NEG')
                 cpt_neg = sql_neg.count()
                 
-                sql_neutral = Tweets.objects.filter(dateTime__hour = h,
+                sql_neutral = tf.qs.filter(dateTime__hour = h,
                                        sentiment_type__startswith='NEU')
                 cpt_neutral = sql_neutral.count()
                 
@@ -199,10 +228,10 @@ def getData(request, type_graphique, chrono, sentiment):
                 
         columns=['date','positive','neutral','negative']
                 
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return liste
         
     elif( type_graphique=='2' and chrono=='1' and sentiment=='2'):
-        listTweets = list(Tweets.objects.extra(select={'date': 'date( dateTime )'}).values('date','gender_predicted').annotate(value=Count('dateTime','gender_predicted')))
+        listTweets = list(tf.qs.extra(select={'date': 'date( dateTime )'}).values('date','gender_predicted').annotate(value=Count('dateTime','gender_predicted')))
         
         dico = {}
         for d in listTweets:
@@ -233,21 +262,21 @@ def getData(request, type_graphique, chrono, sentiment):
                          'unknown':triplet[1], 
                          'women':triplet[2]})
         columns=['date','men','unknown','women']
-        return JsonResponse({'liste': data, 'columns': columns}, safe=False)
+        return data
     
     elif( type_graphique=='2' and chrono=='2' and sentiment=='2'):
         liste = []
         for d in range(1,8):
             
-                sql_m = Tweets.objects.filter(dateTime__week_day = d,
+                sql_m = tf.qs.filter(dateTime__week_day = d,
                                        gender_predicted__startswith='M')
                 cpt_m = sql_m.count()
                 
-                sql_f = Tweets.objects.filter(dateTime__week_day = d,
+                sql_f = tf.qs.filter(dateTime__week_day = d,
                                        gender_predicted__startswith='F')
                 cpt_f = sql_f.count()
                 
-                sql_u = Tweets.objects.filter(dateTime__week_day = d,
+                sql_u = tf.qs.filter(dateTime__week_day = d,
                                        gender_predicted__startswith='U')
                 cpt_u = sql_u.count()
                 
@@ -256,21 +285,21 @@ def getData(request, type_graphique, chrono, sentiment):
                 liste.append({'date':jourTexte, 'men':cpt_m, 'unknown':cpt_u, 'women':cpt_f })
                 
         columns=['date','men','unknown','women']
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return liste
     
     elif( type_graphique=='2' and chrono=='3' and sentiment=='2'):
         liste = []
         for h in range(24):
             
-                sql_m = Tweets.objects.filter(dateTime__hour = h,
+                sql_m = tf.qs.filter(dateTime__hour = h,
                                        gender_predicted__startswith='M')
                 cpt_m = sql_m.count()
                 
-                sql_f = Tweets.objects.filter(dateTime__hour = h,
+                sql_f = tf.qs.filter(dateTime__hour = h,
                                        gender_predicted__startswith='F')
                 cpt_f = sql_f.count()
                 
-                sql_u = Tweets.objects.filter(dateTime__hour = h,
+                sql_u = tf.qs.filter(dateTime__hour = h,
                                        gender_predicted__startswith='U')
                 cpt_u = sql_u.count()
                 
@@ -280,9 +309,10 @@ def getData(request, type_graphique, chrono, sentiment):
                 
         columns=['date','men','unknown','women']
                 
-        return JsonResponse({'liste': liste, 'columns': columns}, safe=False)
+        return liste
     
-    return JsonResponse({}, safe=False)
+    print( "WTF:", type_graphique, chrono, sentiment)
+    return 0
 
 	
 	

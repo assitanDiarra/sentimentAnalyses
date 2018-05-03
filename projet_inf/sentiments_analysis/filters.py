@@ -35,3 +35,12 @@ class CarteFilter(django_filters.FilterSet):
 	class Meta:
 		model = Tweets
 		fields = ['tweet', 'country', 'gender_predicted', 'dateTime', 'sentiment_type']
+        
+class GraphiqueFilter(django_filters.FilterSet):
+	tweet = django_filters.CharFilter(lookup_expr='icontains')
+	country = django_filters.CharFilter(lookup_expr='icontains')
+
+	class Meta:
+		model = Tweets
+		fields = ['tweet', 'country', 'gender_predicted', 'dateTime', 'sentiment_type']
+
