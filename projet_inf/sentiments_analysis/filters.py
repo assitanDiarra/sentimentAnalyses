@@ -46,8 +46,8 @@ class CarteFilter(django_filters.FilterSet):
 
         
 class GraphiqueFilter(django_filters.FilterSet):
-	tweet = django_filters.CharFilter(lookup_expr='icontains')
-	country = django_filters.CharFilter(lookup_expr='icontains')
+	tweet = django_filters.CharFilter(lookup_expr='icontains', label='Search terms')
+	country = django_filters.CharFilter(lookup_expr='icontains', label='Country')
 
 	class Meta:
 		model = Tweets
