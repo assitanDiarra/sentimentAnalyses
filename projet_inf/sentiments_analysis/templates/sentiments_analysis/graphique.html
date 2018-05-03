@@ -48,11 +48,11 @@
 			  {{ tweets_filter.form.country.label_tag }}
 			  {% render_field tweets_filter.form.country class="form-control" %}
 			</div>
-			<div class="form-group col-sm-3 col-md-2">
+			<div class="form-group col-sm-3 col-md-3">
 				<div>
 					<label for="id_tweet">Y-axis:</label>
 					<br>
-					<SELECT name="type_valeur" size="1">
+					<SELECT name="type_valeur" size="1" class="form-control">
 						<OPTION value="0">number of tweets
 						<OPTION value="1">sentiment
 						<OPTION value="2">gender
@@ -61,7 +61,7 @@
 				<div>
 					<label for="id_tweet">X-axis:</label>
 					<br>
-					<SELECT name="chrono" size="1">
+					<SELECT name="chrono" size="1" class="form-control">
 						<OPTION value="1">date
 						<OPTION value="2">week day
 						<OPTION value="3">hour
