@@ -1,6 +1,4 @@
-# sentimentAnalyses
-
-## Twitter Sentiment Analyses in python
+# Twitter Sentiments Analyses Web Application
 
 
 
