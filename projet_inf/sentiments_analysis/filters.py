@@ -29,7 +29,8 @@ class CarteFilter(django_filters.FilterSet):
 	tweet = django_filters.CharFilter(lookup_expr='icontains')
 	gender_predicted = django_filters.MultipleChoiceFilter(choices=gender_choice,
         widget=forms.CheckboxSelectMultiple)
-
+		
+	dateTime = django_filters.DateFilter(widget=forms.SelectDateWidget())
 
     
 	class Meta:

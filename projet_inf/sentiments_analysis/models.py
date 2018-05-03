@@ -33,36 +33,3 @@ class Tweets(models.Model):
 	gender_predicted = models.CharField(max_length=45,null = True, db_index=True)
 	
 	
-
-	
-#class FilteredTweetListView(SingleTableMixin, FilterView):
-#    table_class = TweetTable
-#    model = Tweets
-#    template_name = 'accueil.html'
-#
- #   filterset_class = TweetFilter
-
-	
-
-#	class Meta:
-#	
-#		verbose_name = "Tweets" 
-#		ordering = ['dateTime']
-
-#    class Meta:
-#		verbose_name = "article"
-#    	ordering = ['dateTime'] 
-
-#    def __str__(self):
-#
-#        """ 
-#
-#        Cette méthode que nous définirons dans tous les modèles
-#
-#        nous permettra de reconnaître facilement les différents objets que 
-#
-#        nous traiterons plus tard dans l'administration
-#
-#        """
-
-#        return self.titre
