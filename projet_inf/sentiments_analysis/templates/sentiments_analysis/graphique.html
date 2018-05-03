@@ -1,0 +1,384 @@
+{% load static %}
+{% load js %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            /* CSS goes here. */
+            .subunit {
+                fill: none;
+                stroke: #FFF;
+                stroke-width: 1px;
+            }
+            text.subunit-label {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                font-weight: 300;
+                text-anchor: middle;
+                fill: #000;
+            }
+            .subunit-label {
+                display: none;
+            }
+            .graticule {
+                fill: none;
+                stroke: #aaa;
+                stroke-opacity: .5;
+                stroke-width: .5px;
+            }
+        </style>
+    </head>
+	  <header> 
+{# Display a form #}
+{% block content %}
+  <form name="form_graphique" method="get">
+    <div class="well">
+      <h4 style="margin-top: 0"></h4>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ tweets_filter.form.tweet.label_tag }}
+          {% render_field tweets_filter.form.tweet class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ tweets_filter.form.country.label_tag }}
+          {% render_field tweets_filter.form.country class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+			<SELECT name="type_valeur" size="1">
+				<OPTION value="0">nombre de tweets
+				<OPTION value="1" selected="selected" >sentiment
+				<OPTION value="2">genre
+			</SELECT>
+			<SELECT name="chrono" size="1">
+				<OPTION value="1">par date
+				<OPTION value="2">par jour de la semaine
+				<OPTION value="3">par heure
+			</SELECT>
+        </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </div>
+  </form>
+  {% endblock %}
+ </header>
+    <body>
+                <style>
+                    .bar {
+                      fill: steelblue;
+                    }
+                    .bar:hover {
+                      fill: brown;
+                    }
+                	.axis {
+                    	  font: 10px sans-serif;
+                    	}
+                    
+                    	.axis path,
+                    	.axis line {
+                    	  fill: none;
+                    	  stroke: #000;
+                    	  shape-rendering: crispEdges;
+                    	}
+                
+                	</style>
+              <div class="div_graphiques">
+              
+            <script src="{% static 'd3js_v3.js' %}"></script>
+            <script src="//d3js.org/d3.v4.min.js"></script>
+				<script>
+				
+				var data = "{{ data }}";
+                console.log("data",data);
+				data=(JSON.parse(data.replace(/&quot;/g,'\"'))).data;
+                console.log("data",data);
+				
+				var type_valeur = "{{ type_value }}";
+				var type_valeur_elt = document.form_graphique.type_valeur;
+				var type_valeur_elt_child = type_valeur_elt.options[type_valeur];
+				type_valeur_elt_child.setAttribute("selected", "selected");
+				
+				var chrono = "{{ chrono }}";
+				var chrono_elt = document.form_graphique.chrono;
+				var chrono_elt_child = chrono_elt.options[chrono-1];
+				chrono_elt_child.setAttribute("selected", "selected");
+				
+				//var x = document.getElementById("country").children[2];
+				//x.setAttribute("selected", "selected");
+				
+				var columns = "{{ columns }}";
+                console.log("columns",columns);
+				columns=(JSON.parse(columns.replace(/&#39;/g,'\"')));
+                console.log("columns",columns);
+				
+				if( type_valeur != 0){
+						graphique2( chrono, type_valeur, data, columns);
+					}
+				else {
+						graphique1( chrono, data);
+					}
+                
+                function graphique1(chrono, data){
+                        console.log("graphique1");
+                        
+                        //d3v3.json("page/getData/1/"+chrono+"/0", function(error, response) {
+                        
+						
+                        //console.log("response:");
+                        //console.log(response);
+                        
+                        //var data = response.data;
+                        
+                        var margin = {top: 20, right: 20, bottom: 70, left: 40},
+                                width = 700 - margin.left - margin.right,
+                                height = 400 - margin.top - margin.bottom;
+                            
+                            // Parse the date / time
+                            if( chrono==1){
+								var	parseDate = d3v3.time.format("%m-%d").parse;
+								}
+							if( chrono==3){
+								var	parseDate = d3v3.time.format("%H").parse;
+							}
+                            
+                            var x = d3v3.scale.ordinal().rangeRoundBands([0, width], .05);
+                            
+                            var y = d3v3.scale.linear().range([height, 0]);
+                            
+                            var xAxis = d3v3.svg.axis()
+                                .scale(x)
+                                .orient("bottom");
+								
+							if( chrono==1){
+                                xAxis.tickFormat(d3v3.time.format("%m-%d"));
+							}
+							else if( chrono==3){
+                                xAxis.tickFormat(d3v3.time.format("%H"));
+							}
+							else if( chrono==2){
+								xAxis.ticks(7);
+							}
+                            
+                            var yAxis = d3v3.svg.axis()
+                                .scale(y)
+                                .orient("left")
+                                .ticks(10);
+                            
+                            var divGraphique = d3v3.select("div.div_graphiques");
+                            
+                            
+                            var divGraphiqueNode = divGraphique[0][0];
+                            
+
+                            while (divGraphiqueNode.hasChildNodes()) {
+                                divGraphiqueNode.removeChild(divGraphiqueNode.lastChild);
+                            }
+
+                            var svg = divGraphique.append("svg")
+                                .attr("width", width + margin.left + margin.right)
+                                .attr("height", height + margin.top + margin.bottom)
+                              .append("g")
+                                .attr("transform", 
+                                      "translate(" + margin.left + "," + margin.top + ")");
+                            
+                           data.forEach(function(d) {
+									if( chrono==2){
+										d.date = d.date;
+									}
+									else {
+										d.date = parseDate(d.date);
+										}
+                                    d.value = +d.value;
+                                });
+                            	
+                              x.domain(data.map(function(d) { return d.date; }));
+                              y.domain([0, d3v3.max(data, function(d) { return d.value; })]);
+                            
+                              var newg = svg.append("g")
+                                  .attr("class", "x axis")
+                                  .attr("transform", "translate(0," + height + ")")
+                                  .call(xAxis)
+                                .selectAll("text")
+                                  .style("text-anchor", "end")
+                                  .attr("dx", "-.8em")
+                                  .attr("dy", "-.55em");
+							
+								
+							if( chrono==1){
+                                newg.attr("transform", "rotate(-90)" );
+							}
+							else if( chrono==3){
+                                newg.
+                                  attr("transform", "translate(15,12)" );
+                                  //.attr("transform", "rotate(-90)" );
+							}
+							else if( chrono==2){
+								newg.attr("transform", "translate(25,12)" );
+									  //.attr("transform", "rotate(-90)" );
+							}
+							
+                             svg.append("g")
+                                  .attr("class", "y axis")
+                                  .call(yAxis)
+                                .append("text")
+                                  .attr("transform", "rotate(-90)")
+                                  .attr("y", 6)
+                                  .attr("dy", ".71em")
+                                  .style("text-anchor", "end")
+                                  .text("Number of tweets");
+                            
+                              svg.selectAll(".bar")
+                                  .data(data)
+                                .enter().append("rect")
+                                  .attr("class", "bar")
+                                  //.style("fill", "steelblue")
+                                  .attr("x", function(d) { return x(d.date); })
+                                  .attr("width", x.rangeBand())
+                                  .attr("y", function(d) { return y(d.value); })
+                                  .attr("height", function(d) { return height - y(d.value); });
+                    //});
+                    
+                }
+                function graphique2( chrono, sentiment, data, columns){
+							
+						// d3.json("page/getData/2/"+chrono+"/"+sentiment, function(error, response) {
+							//console.log("response : ");
+							//console.log(response);
+							
+							//var data = response.liste;
+							//data['columns'] = response.columns;
+							console.log("g2 a ")
+							
+							data['columns'] = columns;
+							
+                            var divGraphique = d3.select("div.div_graphiques");
+														
+							var divGraphiqueNode = divGraphique['_groups'][0][0];
+
+								while (divGraphiqueNode.hasChildNodes()) {
+									divGraphiqueNode.removeChild(divGraphiqueNode.lastChild);
+								}
+							
+							var svg = divGraphique.append("svg")
+										.attr("width",700)
+										.attr("height",400);
+								margin = {top: 20, right: 60, bottom: 30, left: 40},
+								width = +svg.attr("width") - margin.left - margin.right,
+								height = +svg.attr("height") - margin.top - margin.bottom,
+								g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+							var x = d3.scaleBand()
+								.rangeRound([0, width])
+								.paddingInner(0.1)
+								.align(0.1);
+
+							var y = d3.scaleLinear()
+								.rangeRound([height, 0]);
+
+							console.log("g2 a ")
+							if ( sentiment==1 ){
+								var z = d3.scaleOrdinal()
+									.range(["#98c598", "#c5c577", "#c59877"]);
+									//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+							}
+							else {
+								var z = d3.scaleOrdinal()
+									.range(["#7798c5", "#ababab", "#c577ab"]);
+									//.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+							}
+
+							var stack = d3.stack()
+								.offset(d3.stackOffsetExpand);
+
+							/*columns = ['State','Under 5 Years','5 to 13 Years','14 to 17 Years','18 to 24 Years','25 to 44 Years','45 to 64 Years','65 Years and Over'];
+							
+							l_data = [
+								
+								{ 'State':'AL',	'Under 5 Years':310504,	'5 to 13 Years':552339,		'14 to 17 Years':259034,	'18 to 24 Years':450818,	'25 to 44 Years':1231572,		'45 to 64 Years':1215966,		'65 Years and Over':641667 },
+								{ 'State':'AK',	'Under 5 Years':52083,	'5 to 13 Years':85640,		'14 to 17 Years':42153,		'18 to 24 Years':74257,		'25 to 44 Years':198724,		'45 to 64 Years':183159,		'65 Years and Over':50277 },
+								{ 'State':'AZ',	'Under 5 Years':515910,	'5 to 13 Years':828669,		'14 to 17 Years':362642,	'18 to 24 Years':601943,	'25 to 44 Years':1804762,		'45 to 64 Years':1523681,		'65 Years and Over':862573 },
+								{ 'State':'AR',	'Under 5 Years':202070,	'5 to 13 Years':343207,		'14 to 17 Years':157204,	'18 to 24 Years':264160,	'25 to 44 Years':754420,		'45 to 64 Years':727124,		'65 Years and Over':407205 }
+							];
+							
+							//d3.csv("data.csv", type, function(error, csv_data) {
+								/*console.log(data);
+								console.log(data.columns);
+								console.log(data[49]);
+								console.log(data[50]);
+								console.log(data[51]);
+								console.log(data['columns']);
+								
+								l_data['columns'] = columns;
+								
+								data = l_data ;*/
+							console.log("g2 b ")
+
+								  data.sort(function(a, b) { return b[data.columns[1]] / b.total - a[data.columns[1]] / a.total; });
+
+								  x.domain(data.map(function(d) { return d.date; }));
+								  z.domain(data.columns.slice(1));
+								  
+								  console.log('data.columns= '+data.columns);
+								  console.log(data.columns);
+
+								  var serie = g.selectAll(".serie")
+									.data(stack.keys(data.columns.slice(1))(data))
+									.enter().append("g")
+									  .attr("class", "serie")
+									  .attr("fill", function(d) { return z(d.key); });
+
+								  serie.selectAll("rect")
+									.data(function(d) { return d; })
+									.enter().append("rect")
+									  .attr("x", function(d) { return x(d.data.date); })
+									  .attr("y", function(d) { return y(d[1]); })
+									  .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+									  .attr("width", x.bandwidth());
+
+								  g.append("g")
+									  .attr("class", "axis axis--x")
+									  .attr("transform", "translate(0," + height + ")")
+									  .call(d3.axisBottom(x));
+
+								  g.append("g")
+									  .attr("class", "axis axis--y")
+									  .call(d3.axisLeft(y).ticks(10, "%"));
+
+								  var legend = serie.append("g")
+									  .attr("class", "legend")
+									  .attr("transform", function(d) { 
+										var d = d[d.length - 1];
+										console.log(x(d.data.date));
+										return "translate(" + (x(d.data.date) + x.bandwidth()) + "," + ((y(d[0]) + y(d[1])) / 2) + ")"; });
+
+								  legend.append("line")
+									  .attr("x1", -6)
+									  .attr("x2", 6)
+									  .attr("stroke", "#000");
+							console.log("g2 c ")
+
+								  legend.append("text")
+									  .attr("x", 9)
+									  .attr("dy", "0.35em")
+									  .attr("fill", "#000")
+									  .style("font", "10px sans-serif")
+									  .text(function(d) { return d.key; });
+
+							function type(d, i, columns) {
+							  for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
+							  d.total = t;
+							  return d;
+							}
+							
+							//});
+                    
+					}
+				</script>
+			  </div>
+    </body>
+</html>
