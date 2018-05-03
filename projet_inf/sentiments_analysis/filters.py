@@ -19,9 +19,9 @@ class TweetFilter(django_filters.FilterSet):
 	tweet = django_filters.CharFilter(lookup_expr='icontains', label='Search terms')
 	country = django_filters.CharFilter(lookup_expr='icontains', label='Country')
 	gender_predicted = django_filters.MultipleChoiceFilter(choices=gender_choice,
-        widget=forms.CheckboxSelectMultiple)
+        widget=forms.CheckboxSelectMultiple, label = 'Gender')
 	sentiment_type = django_filters.MultipleChoiceFilter(choices=sentiment_choice,
-        widget=forms.CheckboxSelectMultiple)
+        widget=forms.CheckboxSelectMultiple, label = 'sentiment')
 	dateTime = django_filters.DateTimeFilter(widget= forms.SelectDateWidget(), 
 	lookup_expr="date", label="Date", initial=date.today())
 
