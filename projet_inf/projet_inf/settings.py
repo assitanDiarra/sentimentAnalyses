@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'sentiments_analysis',
-	'django_tables2',
 	'bootstrap3',
 	'django_filters',
 	'widget_tweaks',
