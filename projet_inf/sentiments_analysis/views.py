@@ -77,6 +77,7 @@ def liste_tweet(request):
 		response = paginator.page(1)
 	except EmptyPage:
 		response = paginator.page(paginator.num_pages)
+	print(response.next_page_number())
 	
 	return render(request, 'sentiments_analysis/liste_tweet.html',{'response': response,'tweets_filter': tweets_filter })
 

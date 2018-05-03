@@ -74,7 +74,7 @@
 	 <th>Country</th>
 	 <th>Gender</th>
 	 <th>Date</th>
-	 <th>Sentiment type</th>
+	 <th>Sentiment</th>
       </tr>
     </thead>
     <tbody>
@@ -102,13 +102,15 @@
       <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
     {% for i in response.paginator.page_range %}
+	   {% if 10 > forloop.counter  %}
       {% if response.number == i  %}
         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
       {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
       {% endif %}
+	  {% endif %}
     {% endfor %}
-    {% if response.has_next  and 10 > response.next_page_number  %}
+    {% if response.has_next %}
       <li><a href="?page={{ response.next_page_number }}">&raquo;</a></li>
     {% else %}
       <li class="disabled"><span>&raquo;</span></li>
