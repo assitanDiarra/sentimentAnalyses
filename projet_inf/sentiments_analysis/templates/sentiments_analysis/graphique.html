@@ -135,8 +135,8 @@
                         //var data = response.data;
                         
                         var margin = {top: 20, right: 20, bottom: 70, left: 40},
-                                width = 700 - margin.left - margin.right,
-                                height = 400 - margin.top - margin.bottom;
+                                width = 1000 - margin.left - margin.right,
+                                height = 450 - margin.top - margin.bottom;
                             
                             // Parse the date / time
                             if( chrono==1){
@@ -265,9 +265,9 @@
 								}
 							
 							var svg = divGraphique.append("svg")
-										.attr("width",700)
-										.attr("height",400);
-								margin = {top: 20, right: 60, bottom: 30, left: 40},
+										.attr("width",1000)
+										.attr("height",450);
+								margin = {top: 20, right: 60, bottom: 50, left: 40},
 								width = +svg.attr("width") - margin.left - margin.right,
 								height = +svg.attr("height") - margin.top - margin.bottom,
 								g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -340,10 +340,15 @@
 									  .attr("height", function(d) { return y(d[0]) - y(d[1]); })
 									  .attr("width", x.bandwidth());
 
-								  g.append("g")
+								 var newg = g.append("g")
 									  .attr("class", "axis axis--x")
 									  .attr("transform", "translate(0," + height + ")")
-									  .call(d3.axisBottom(x));
+									  .call(d3.axisBottom(x))
+										.selectAll("text");
+								
+							if( chrono==1){
+									newg.attr("transform", "rotate(-90) translate(-20,-12)" );
+								}
 
 								  g.append("g")
 									  .attr("class", "axis axis--y")
