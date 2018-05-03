@@ -75,7 +75,7 @@
   {% endblock %}
  </header>
     <body>
-	
+		<div id="map" align="center"></div>
         <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="//d3js.org/topojson.v1.min.js"></script>
         <script>
@@ -127,18 +127,10 @@
                 .attr("d", path);
 
 
+
 			draw(jsondata)
             function draw(data) {
-                // var localstoreWorldData = localStorage.getItem('worldmapData');
-                // if (localstoreWorldData && localstoreWorldData.length) {
-                //     localstoreWorldData = JSON.parse(localstoreWorldData);
-                //     console.log('localstoreWorldData',localstoreWorldData);
-                //     if (localstoreWorldData) {
-                //         processWorldD(localstoreWorldData, data);
-                //         //no need proceed further
-                //         return;
-                //     }
-                // }
+
                 d3.json("{%static 'world.json' %}" , function(error, world) {
                     if (error) return console.error(error);
                     console.log('world',world);
@@ -231,12 +223,12 @@
                 var approxIdx = diffDatumDiffDoc / paletteInterval;
                 if (!approxIdx || Math.floor(approxIdx) === 0) approxIdx = 0;
                 else approxIdx = Math.floor(approxIdx) - 1;						
-				var color_domain = [minDocCount + paletteInterval,minDocCount + 2*paletteInterval, minDocCount+ 3*paletteInterval,minDocCount + 4*paletteInterval,
-				minDocCount + 5*paletteInterval,minDocCount + 6*paletteInterval,minDocCount + 7*paletteInterval,minDocCount + 8*paletteInterval,minDocCount + 9*paletteInterval,,minDocCount + 10*paletteInterval]
+				var color_domain = [minDocCount + 10*paletteInterval, minDocCount + 9*paletteInterval,minDocCount + 8*paletteInterval, minDocCount + 7*paletteInterval, minDocCount + 6*paletteInterval,
+				minDocCount + 5*paletteInterval, minDocCount + 4*paletteInterval, minDocCount+ 3*paletteInterval, minDocCount + 2*paletteInterval, minDocCount + paletteInterval]
 				var color = d3.scale.quantile().domain(color_domain).range(palette)
-				var legendRectSize=35
+				var legendRectSize=25
 				var legendSpacing=4
-				var legend_labels = ["😊","< 50", "50+", "150+", "350+", "750+", "> 1500"] 
+				var legend_labels = ["😡", "😡", " 😞", "😔", "🙁", "😕","🙂","😄","😃","😀"] 
 				var legend = d3.select('svg')
 					.append("g")
 					.selectAll("g")
@@ -248,7 +240,7 @@
 					var height = legendRectSize + legendSpacing;
 				    var offset =  height * color.domain().length / 2;
 				            var horz = 2 * legendRectSize + 850 ;
-				            var vert = i * height + 200;
+				            var vert = i * height + 250;
 				            return 'translate(' + horz + ',' + vert + ')';
 					});
 				
@@ -260,7 +252,7 @@
 				   
 				      legend.append('text')
                              .attr('x', legendRectSize + legendSpacing + 5)
-                             .attr('y', legendRectSize - legendSpacing)
+                             .attr('y', legendRectSize - legendSpacing + 5)
 					//.text(function(d){ return d; });
                              .text(function(d, i){ return legend_labels[i]; });
 				

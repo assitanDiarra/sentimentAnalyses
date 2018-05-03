@@ -102,13 +102,13 @@
       <li class="disabled"><span>&laquo;</span></li>
     {% endif %}
     {% for i in response.paginator.page_range %}
-      {% if response.number == i %}
+      {% if response.number == i  %}
         <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
       {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
-    {% if response.has_next %}
+    {% if response.has_next  and 10 > response.next_page_number  %}
       <li><a href="?page={{ response.next_page_number }}">&raquo;</a></li>
     {% else %}
       <li class="disabled"><span>&raquo;</span></li>
