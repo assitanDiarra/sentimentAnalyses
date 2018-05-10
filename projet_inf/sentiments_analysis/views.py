@@ -65,7 +65,7 @@ Subject: %s
         return 0
     
     print("mail envoye : ", name,", ", email)
-    return HttpResponse(request,'sentiments_analysis/index.html')
+    return HttpResponse(request,'sentiments_analysis/accueil.html')
 	
 	
 	
