@@ -152,7 +152,7 @@
                             
                             // Parse the date / time
                             if( chrono==1){
-								var	parseDate = d3v3.time.format("%m-%d").parse;
+								var	parseDate = d3v3.time.format("%d-%m").parse;
 								}
 							if( chrono==3){
 								var	parseDate = d3v3.time.format("%H").parse;
@@ -167,7 +167,7 @@
                                 .orient("bottom");
 								
 							if( chrono==1){
-                                xAxis.tickFormat(d3v3.time.format("%m-%d"));
+                                xAxis.tickFormat(d3v3.time.format("%d-%m"));
 							}
 							else if( chrono==3){
                                 xAxis.tickFormat(d3v3.time.format("%H"));

@@ -174,18 +174,6 @@ def getData(type_graphique, chrono, sentiment, tf):
                 
         return data
     
-        data = []
-        print( tf.qs.values(hour=Extract('dateTime', 'hour')).annotate(value=Count('hour')))
-        for h in range(24):
-            
-                sql = tf.qs.filter(dateTime__hour = h)
-                cpt = sql.count()
-                
-                heureTexte = ""+str(h)
-                data.append({'date':heureTexte, 'value':cpt})
-                
-        return data
-    
     elif( type_graphique=='1' and chrono=='2'):
         
         listTweets = list(tf.qs.values(time=Extract('dateTime', 'week_day')).annotate(value=Count('time')))
@@ -221,6 +209,15 @@ def getData(type_graphique, chrono, sentiment, tf):
             listTweets = list(tf.qs.extra(select={'time': 'date( dateTime )'}).values('time',colonne).annotate(value=Count('dateTime',colonne)))
         
         dico = {}
+        if( chrono=='3'):
+            for i in range(24):
+                dico[i]=[0,0,0]
+                
+        jours = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+        if( chrono=='2'):
+            for i in range(1,8):
+                dico[i]=[0,0,0]
+        
         for d in listTweets:
             time = d['time']
             cle = time
@@ -252,7 +249,6 @@ def getData(type_graphique, chrono, sentiment, tf):
             
         liste=[]
         for k, t in dico.items():
-            jours = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
             if( chrono=='2'):
                 time = jours[k-1]
             if( chrono=='3'):
