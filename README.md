@@ -6,3 +6,15 @@ As part of a python project, we decided to create a web application about people
 
 We used more precisely __SentimentIntensityAnalyzer__ class which gives a sentiment intensity score to sentences. Indeed, positive values are positive valence, negative value are negative valence and null value are neutral. Finaly, we decided to present our analysis in an web application. So We chose a well known Python Web framework: __Django__.
 
+## How to install it ?
+
+-	Install the requirements
+
+yourpath\projet_inf pip install -r /path/to/requirements.txt
+
+-	Launch the server
+
+yourpath\projet_inf python manage.py runserver
+
+
+
