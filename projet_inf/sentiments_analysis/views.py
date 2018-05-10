@@ -143,7 +143,7 @@ def getData(type_graphique, chrono, sentiment, tf):
         2 -> show by gender
     """
     if( type_graphique=='1' and chrono=='1'):        
-        listTweets = list(tf.qs.extra(select={'date': ' hour(dateTime) '}).values('date').annotate(value=Count('dateTime')))
+        listTweets = list(tf.qs.extra(select={'date': ' date(dateTime) '}).values('date').annotate(value=Count('dateTime')))
         
         dico = {}
         for d in listTweets:
