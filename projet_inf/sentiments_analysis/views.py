@@ -36,7 +36,7 @@ def sendMail(request):
         gmail_password = '49f8wu5z-$e'
         
         sent_from = gmail_user  
-        to = ['simon.aubeneau@gmail.com']  
+        to = ['sentiment.analysis.ensae@gmail.com']  
         subject = 'mail from SentimentAnalyses'  
         body = \
 """Name: %s
