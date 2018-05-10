@@ -13,6 +13,7 @@ from . import filters
 from django.db.models import Count
 import datetime
 from datetime import timedelta
+from django.db.models.functions import Extract
 
 def accueil(request):
 
@@ -21,11 +22,6 @@ def accueil(request):
 	return render(request, 'sentiments_analysis/accueil.html',{'table': tweets})
 	
 	
-def home(request):
-
-    """ Exemple de page non valide au niveau HTML pour que l'exemple soit concis """
-
-    return HttpResponse(request,'sentiments_analysis/index.html')
 	
 	
 def carte(request):
@@ -34,7 +30,6 @@ def carte(request):
 	#tweets_list= list(Tweets.objects.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= list(tweets_filter.qs.values('country_code').annotate(Sum('sentiment_compound_polarity')))
 	tweets_list= json.dumps({"data": tweets_list})
-	print('date',datetime.date.today())
 	return render(request, 'sentiments_analysis/carte.html',{'liste':tweets_list,'tweets_filter': tweets_filter })
 	
 def graphique(request):
@@ -103,7 +98,7 @@ def getData(type_graphique, chrono, sentiment, tf):
         2 -> show by gender
     """
     if( type_graphique=='1' and chrono=='1'):        
-        listTweets = list(tf.qs.extra(select={'date': 'date( dateTime )'}).values('date').annotate(value=Count('dateTime')))
+        listTweets = list(tf.qs.extra(select={'date': ' hour(dateTime) '}).values('date').annotate(value=Count('dateTime')))
         
         dico = {}
         for d in listTweets:
