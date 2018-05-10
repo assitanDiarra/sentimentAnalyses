@@ -80,6 +80,10 @@
               </div>
               <img class="img-fluid" src="{% static 'img/portfolio/list.png' %}" alt="">
             </a>
+		  <div class="text-center text-uppercase text-secondary mb-0" 
+		       style="font-family: Montserrat; font-size: 16px; font-weight: 700; line-height: 24px; letter-spacing: 1px;">
+				explore Tweets
+		  </div>
           </div>
           <div class="col-md-6 col-lg-4">
             <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-2">
@@ -90,6 +94,10 @@
               </div>
               <img class="img-fluid" src="{% static 'img/portfolio/graph.png' %}" alt="">
             </a>
+		  <div class="text-center text-uppercase text-secondary mb-0" 
+		       style="font-family: Montserrat; font-size: 16px; font-weight: 700; line-height: 24px; letter-spacing: 1px;">
+				view Charts
+		  </div>
           </div>
           <div class="col-md-6 col-lg-4">
             <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-3">
@@ -100,6 +108,10 @@
               </div>
               <img class="img-fluid" src="{% static 'img/portfolio/earth.png' %}" alt="">
             </a>
+		  <div class="text-center text-uppercase text-secondary mb-0" 
+		       style="font-family: Montserrat; font-size: 16px; font-weight: 700; line-height: 24px; letter-spacing: 1px;">
+				discover the World
+		  </div>
           </div>
 
         </div>
@@ -113,13 +125,30 @@
         <hr class="star-light mb-5">
         <div class="row">
           <div class="col-lg-4 ml-auto">
-            <p class="lead " align ="justify">As part of a python project, we decided to create a web application about people feelings (english only) on Twitter. So this project is divided in tree parts: Twitter scraping, machine learning and web application. Indeed, we first scrapped english tweets using Twitter API around the world. Then after cleaned it,  we predicted the sentiments using from package named nltk. It uses VADER, a parsimonious rule-based model for
-Sentiment Analysis of Social Media text written by Hutto, C.J. & Gilbert, E.E. (2014).
+            <p class="lead " align ="justify">
+			As part of a python project, we decided to create a web application about people feelings (english only) on Twitter. 
+			We wanted an application to discover the connections between people feelings, their gender and keywords we choose.
+			So this project is divided in tree parts: Twitter scraping, machine learning and web application. 
+			<br>
+			<br>
+			Indeed, we first scrapped english tweets using Twitter API around the world.
 			</p>
           </div>
           <div class="col-lg-4 mr-auto">
-            <p class="lead" align ="justify" > We used more precisely SentimentIntensityAnalyzer class which gives a sentiment intensity score to sentences. Indeed, positive values are positive valence, negative value are negative
-        valence and null value are neutral. Finaly, we decided to present our analysis in an web application. So We chose a well known Python Web framework: Django.
+            <p class="lead" align ="justify" >
+			Then after cleaned it, we predicted the sentiments using a package named nltk. 
+			It uses VADER, a parsimonious rule-based model for Sentiment Analysis of Social Media text written by Hutto, C.J. & Gilbert, E.E. (2014). 
+			We used more precisely SentimentIntensityAnalyzer class which gives a sentiment intensity score to sentences. 
+			Indeed, positive values are positive valence, negative value are negative valence and null value are neutral. 
+          </div>
+          <div class="col-lg-4 mr-auto">
+            <p class="lead" align ="justify" > 
+			For gender predicition, we used a database of english and american names. 
+			If we recognize a male name or a female name in the nickname of the user, we attribute the gender to this user. 
+			We used also a list of gender attributes, like "mister" or "miss".
+			<br>
+			<br>
+			Finally, we decided to present our analysis in a web application. So, We chose a well known Python Web framework: Django. 
           </div>
         </div>
       </div>
