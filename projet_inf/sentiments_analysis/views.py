@@ -14,13 +14,58 @@ from django.db.models import Count
 import datetime
 from datetime import timedelta
 from django.db.models.functions import Extract
-
+from django.views.decorators.csrf import csrf_exempt
+import smtplib
+        
 def accueil(request):
+    
+    tweets= Tweets.objects.all()
+    
+    return render(request, 'sentiments_analysis/accueil.html',{'table': tweets})
+	
 
-	tweets= Tweets.objects.all()
-	
-	return render(request, 'sentiments_analysis/accueil.html',{'table': tweets})
-	
+@csrf_exempt
+def sendMail(request):
+    name = request.POST.get("name",0)
+    email = request.POST.get("email",0)
+    message = request.POST.get("message",0)
+    
+    try:
+
+        gmail_user = 'sentiment.analysis.ensae'  
+        gmail_password = '49f8wu5z-$e'
+        
+        sent_from = gmail_user  
+        to = ['simon.aubeneau@gmail.com']  
+        subject = 'mail from SentimentAnalyses'  
+        body = \
+"""Name: %s
+Email: %s
+Message:
+  
+%s
+
+""" % (name, email, message)
+        
+        email_text = """\  
+From: %s  
+To: %s  
+Subject: %s
+
+%s
+""" % (sent_from, ", ".join(to), subject, body)
+        
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.ehlo()
+        server.login(gmail_user, gmail_password)
+        server.sendmail(sent_from, to, email_text)
+        server.close()
+    except Exception: 
+        print("exception lors de l'envoi de mail : ", name,", ", email)
+        return 0
+    
+    print("mail envoye : ", name,", ", email)
+    return HttpResponse(request,'sentiments_analysis/index.html')
 	
 def home(request):
 

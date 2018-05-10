@@ -20,13 +20,14 @@ from django_filters.views import FilterView
 #from mysite.search.filters import UserFilter
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+   path('admin/', admin.site.urls),
 	path('index', views.home, name='index'),
 	path('', views.accueil, name='accueil'),
 	path('liste_tweet', views.liste_tweet, name='liste_tweet'),
 	path('carte', views.carte, name='carte'),
 	path('graphique', views.graphique, name='graphique'),
-	path('page/getData/<type_graphique>/<chrono>/<sentiment>', views.getData)
+	path('page/getData/<type_graphique>/<chrono>/<sentiment>', views.getData),
+	path('send_mail', views.sendMail, name='sendMail')
 ]
 #urlpatterns = [
 #    url(r'^search/$', FilterView.as_view(filterset_class=UserFilter,
