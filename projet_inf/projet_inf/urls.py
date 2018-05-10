@@ -21,7 +21,6 @@ from django_filters.views import FilterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-	path('index', views.home, name='index'),
 	path('', views.accueil, name='accueil'),
 	path('liste_tweet', views.liste_tweet, name='liste_tweet'),
 	path('carte', views.carte, name='carte'),
